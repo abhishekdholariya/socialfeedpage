@@ -39,12 +39,22 @@ $(function () {
                                     <button class="btn btn-link" type="button" id="drop-dwon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h"></i>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">`;
+
+                                    if (post.user_id==user_id) {
+
+                                    newPostHtml +=`
                                         <a href="#"><button class="dropdown-item" type="button">Edit</button></a>
                                         <a href="#"><button class="dropdown-item" type="button">Delete</button></a>
-
+                                    `;
+                                    }
+                                    else{
+                                    newPostHtml+=`
                                         <a href="#"><button class="dropdown-item" type="button">Report</button></a>
+                                    `;
+                                    }
+                                newPostHtml+=`
+
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +62,7 @@ $(function () {
                         <div class="card-body">
                             <div class="text-muted h7 mb-2 d-flex justify-content-between">
                                 <h5 class="card-title">${post.post_details}</h5>
-                                <i class="fa fa-clock-o">${post.created_at}</i>
+                                <i class="fa fa-clock-o">${new Date(post.created_at).toLocaleString()}</i>
                             </div>
                             <p class="card-text">
                                 <img src="postimg/${post.post_img}" style="height:300px" alt="post images" />
