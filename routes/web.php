@@ -17,8 +17,7 @@ Route::post('/getcomments', [PostController::class, 'getcomments'])->name('getco
 
 Route::group(['middleware' => 'auth'], function () {
 
-// Route::delete('/logout',[LoginController::class,'logout'])->name('logout');
-    Route::match(['get', 'post'], '/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::post('/post', [PostController::class, 'addpost'])->name('addpost');
 
@@ -32,6 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 // commentpost
     Route::post('/commentpost', [PostController::class, 'commentpost'])->name('commentpost');
-// getcomments
+
+//delete post
+    Route::delete('/deletepost',[PostController::class,'deletepost'])->name('deletepost');
 
 });

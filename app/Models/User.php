@@ -21,6 +21,9 @@ class User extends Authenticatable
     public function post(){
         return $this->hasMany(Post::class);
     }
+    public function friend(){
+        return $this->hasOne(User::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

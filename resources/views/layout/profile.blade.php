@@ -31,17 +31,33 @@
         </div>
     @endauth
 
+    <div class="container mt-5">
+        <h2 class="mb-4">Followers List</h2>
+        
+        <div class="list-group">
+            <span class="list-group-item list-group-item-action d-flex align-items-center">
+                <img src="https://via.placeholder.com/50" class="rounded-circle mr-3" alt="Profile Picture">
+                <div class="flex-grow-1">
+                    <h5 class="mb-1">Abhi</h5>
+                    <p class="mb-1">web dewloper</p>
+                </div>
+                <button class="btn btn-primary">Follow</button>
+            </span>
+        </div>
+        
+    </div>
+    
 </div>
 
 @auth
 
-    <!-- profile modal -->
-    <div class="modal fade" id="profilemodal" data-backdrop="static">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="text-lg-center modal-title">Profile</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal"><span>&times;</span></button>
+<!-- profile modal -->
+<div class="modal fade" id="profilemodal" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="text-lg-center modal-title">Profile</h4>
+                <button type="button" class="close" data-bs-dismiss="modal"><span>&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form action="" id="profileForm" method="POST" enctype="multipart/form-data">

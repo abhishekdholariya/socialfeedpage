@@ -36,32 +36,7 @@ class RegisterController extends Controller
         $user->save();
         return redirect('/login')->with('success', 'User registered successfully.');
     }
-
-    // public function profileUpdate(Request $request,$id)
-    // {
-        
-    //     $request->validate([
-    //         'fname' => 'required|',
-    //         'username' => 'required|',
-    //         'email' => 'required|email',
-    //         'password' => 'nullable|string|min:8',
-    //         'profile' => 'nullable|image',
-    //     ]);
-    //     $user = User::find($id);
-        
-    //     $user->fname = $request->input('fname');
-    //     $user->lname = $request->input('lname');
-    //     $user->email = $request->input('email');
-    //     $user->password=Hash::make($request->input('password'));
-
-    //     $profile = $request->file('profile');
-    //     $profileName = time() . '.' . $profile->getClientOriginalExtension();
-    //     $profile->move(public_path('uploads'), $profileName);   
-    //     $user->profile=$profileName;
     
-    //     $user->save();
-    //     return redirect('/')->with('success', 'User profile updated successfully.');
-    // }
 public function profileUpdate(Request $request, $id)
 {
     $request->validate([
@@ -92,11 +67,6 @@ public function profileUpdate(Request $request, $id)
     $user->save();
 
     return redirect()->back();
-
-    // return response()->json([
-    //     'fname' => $user->fname,
-    //     'profile' => $user->profile
-    // ]);
 }
 
 }

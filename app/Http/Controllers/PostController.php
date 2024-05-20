@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
     public function show(){
         try{
-            $posts = Post::with('user','likes')->withCount('comments')->get();
+            $posts = Post::with('user','likes')->withCount('comments')->get(); 
+            // return $friends;
             return response()->json(['success' => true, 'posts' => $posts]);
         }
         catch (Exception $e) {
@@ -48,7 +51,7 @@ class PostController extends Controller
         }
     }
     
-    // likepost
+    // like on post
     public function likepost(Request $request){
         try {
             $post_id = $request->post_id;
@@ -70,7 +73,7 @@ class PostController extends Controller
         }
     }
 
-    // commentpost
+    // comment on post
     public function commentpost(Request $request){
         try {
             $post_id = $request->post_id;
@@ -95,6 +98,20 @@ class PostController extends Controller
             return response()->json(['success' => true, 'comments' => $comments]);
         } catch (Exception $e) {
             Log::info('Post getcomments');
+            Log::info($e->getMessage());
+            return response()->json(['success' => false]);
+        }
+    }
+
+    //delete post
+    public function deletePost(Request $request){
+        try {
+            $post_id = $request->post_id;
+            $post = Post::findOrFail($post_id);
+            $post->delete(); 
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            Log::info('Post delete');
             Log::info($e->getMessage());
             return response()->json(['success' => false]);
         }

@@ -104,5 +104,7 @@
     const likePost = "{{ route('likepost') }}";
     const commentPost = "{{ route('commentpost') }}";
     const getComments = "{{ route('getcomments') }}";
+    const deletePost = "{{ route('deletepost') }}";
 </script>
+
 <script src="{{ asset('js/post.js') }}"></script>
