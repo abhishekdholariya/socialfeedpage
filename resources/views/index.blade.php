@@ -1,7 +1,7 @@
 @extends('layout.masterlayout')
 
 @section('title')
-    Linkedin
+    Social Page
 @endsection
 
 @section('main')

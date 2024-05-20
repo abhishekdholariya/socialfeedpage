@@ -4,7 +4,7 @@
   
       <div class="col-lg-3 col-sm-12">
         <a class="navbar-brand" href="#">
-          <img src="images/linkedin.svg" alt="linkedinsvg" width="30" height="24" class="d-inline-block align-text-top" /> Linkedin
+          <img src="https://www.iconfinder.com/static/img/favicons/favicon-32x32.png?87b2a5c3aa" alt="linkedinsvg" width="30" height="24" class="d-inline-block align-text-top" /> Social Page
         </a>
       </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

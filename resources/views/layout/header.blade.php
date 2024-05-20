@@ -3,7 +3,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <title>@yield('title')</title>
-<link rel="icon" type="image/svg+xml" href="https://static.licdn.com/aero-v1/sc/h/akt4ae504epesldzj74dzred8" id="favicon-svg">
+<link rel="icon" type="image/svg+xml" href="https://www.iconfinder.com/static/img/favicons/favicon-32x32.png?87b2a5c3aa" id="favicon-svg">
 
 <!-- bootstrap link -->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />

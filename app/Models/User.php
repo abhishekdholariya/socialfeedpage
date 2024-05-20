@@ -24,6 +24,30 @@ class User extends Authenticatable
     public function friend(){
         return $this->hasOne(User::class);
     }
+
+    public function follow(User $user)
+    {
+        if (!$this->isFollowing($user)) {
+            $this->follows()->attach($user->id);
+        }
+    }
+
+    public function isFollowing(User $user)
+    {
+        return $this->follows()->where('followed_user_id', $user->id)->exists();
+    }
+
+    public function follows()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'followed_user_id')->withTimestamps();
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followed_user_id', 'user_id')->withTimestamps();
+    }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -73,8 +73,10 @@ $(function () {
                         
                         <div class="card-footer">
                             <a href="#" class="card-link card-like" data-postid="${post.id}"><i class="${likeClass} fa-heart"></i></a>
-                            <span class="like_count">${post.likes.length}</span>
+                            <span class="like_count">${post.likes.length} </span>
+                            <span>Likes</sapn>
                             <a href="#" class="card-link card-comment"  data-postid="${post.id}"><i class="fa-regular fa-comment"></i></a>
+                            <span>Comments</sapn>
                         </div>`;
                         $(".all-posts").prepend(newPostHtml);
                     });
@@ -308,3 +310,6 @@ $(function () {
     fetchAllPosts();
 
 });
+
+
+

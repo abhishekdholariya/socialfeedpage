@@ -1,7 +1,7 @@
 {{-- news start --}}
 <div class="card gedf-card">
     <div class="card-body">
-        <h5 class="text-center mb-1 font-weight-bold">Linkedin News</h5>
+        <h5 class="text-center mb-1 font-weight-bold">Social News</h5>
         <hr />
         <h5 class="card-title">Travel firms on green path</h5>
         <h6 class="card-subtitle mb-0 text-dark">4d ago</h6>

@@ -14,8 +14,7 @@ class PostController extends Controller
 {
     public function show(){
         try{
-            $posts = Post::with('user','likes')->withCount('comments')->get(); 
-            // return $friends;
+            $posts = Post::with('user','likes')->withCount('comments')->get();
             return response()->json(['success' => true, 'posts' => $posts]);
         }
         catch (Exception $e) {

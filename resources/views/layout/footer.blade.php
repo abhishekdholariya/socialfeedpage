@@ -12,5 +12,5 @@
 </div>
 <hr />
 <a href="#">
-    <p class="text-center text-dark-50 mt-3">Linkedin Corporation © 2024</p>
+    <p class="text-center text-dark-50 mt-3">Corporation © 2024</p>
 </a>
