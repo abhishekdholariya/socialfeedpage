@@ -3,6 +3,7 @@
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
@@ -38,4 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //follow 
     Route::post('/follow', [IndexController::class, 'follow'])->name('follow');
+
+    Route::get('/notification',[NotificationController::class,'show'])->name('notification');
+    Route::get('/notifications', [NotificationController::class, 'likenotify']);
 });

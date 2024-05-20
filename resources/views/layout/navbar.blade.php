@@ -15,7 +15,7 @@
         <a class="navbar-brand position-relative" href="#">
           <i class="fa-solid fa-envelope p-3 border rounded-circle">
             <span class="position-absolute badge bg-danger">11</span></i></a>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{route('notification')}}">
           <i class="fa-solid fa-heart p-3 border rounded-circle">
             <span class="position-absolute badge bg-danger">10</span></i></a>
         <a class="navbar-brand" href="#">

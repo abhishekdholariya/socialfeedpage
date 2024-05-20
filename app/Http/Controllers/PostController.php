@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Casts\Json;
@@ -63,6 +64,15 @@ class PostController extends Controller
             }else{
                 Post::find($post_id)->likes()->create(['user_id'=>$user_id]);
                 $total_post_like = Post::find($post_id)->likes()->count();
+                // Get the post owner
+                $post = Post::findOrFail($post_id);
+                $postOwner = $post->user;
+                // Create a notification for the post owner
+                Notification::create([
+                    'user_id' => $postOwner->id,
+                    'post_id' => $post_id,
+                    'type' => 'like'
+                ]);
                 return response()->json(['success' => true, 'like' => true, 'total_post_like' => $total_post_like]);
             }
         } catch (Exception $e) {
