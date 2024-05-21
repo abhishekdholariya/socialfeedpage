@@ -19,7 +19,7 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <h3 class="register-heading">Login Form</h3>
-                        <form id="loginForm" action="{{route('credentials')}}" method="POST">
+                        <form id="loginForm" action="" method="POST">
                             @csrf
                             <div class="row register-form d-flex justify-content-center">
                                 <div class="col-8">
@@ -29,12 +29,17 @@
                                     <div class="form-group">
                                         <input type="password" class="form-control" placeholder="Password *" name="password">
                                     </div>
-                                    <div>
-                                        <h6>New to Linkedin? <a href="/register">Join Now</a></h6>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <div>
+                                            <h6>New to Social page? <a href="/register">Join Now</a></h6>
+                                        </div>
+                                        <div>
+                                            <h6><a href="">Forgot Password?</a></h6>
+                                        </div>
                                     </div>
                                 </div>
+                                <input type="submit" class="btnRegister" value="Login" />
                             </div>
-                            <input type="submit" class="btnRegister" value="Login" />
                         </form>
                     </div>
                 </div>

@@ -15,10 +15,9 @@ class PostController extends Controller
 {
     public function show(){
         try{
-            $posts = Post::with('user','likes')->withCount('comments')->get();
+            $posts = Post::with('user','likes')->withCount('comments')->where('archive',0)->get();
             return response()->json(['success' => true, 'posts' => $posts]);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Log::info('Post store');
             Log::info($e->getMessage());
             return response()->json(['success' => false]);
@@ -64,7 +63,8 @@ class PostController extends Controller
             }else{
                 Post::find($post_id)->likes()->create(['user_id'=>$user_id]);
                 $total_post_like = Post::find($post_id)->likes()->count();
-                // Get the post owner
+                
+                //notification
                 $post = Post::findOrFail($post_id);
                 $postOwner = $post->user;
                 // Create a notification for the post owner
@@ -116,11 +116,27 @@ class PostController extends Controller
     public function deletePost(Request $request){
         try {
             $post_id = $request->post_id;
+            dd($post_id);
             $post = Post::findOrFail($post_id);
             $post->delete(); 
             return response()->json(['success' => true]);
         } catch (Exception $e) {
             Log::info('Post delete');
+            Log::info($e->getMessage());
+            return response()->json(['success' => false]);
+        }
+    }
+    public function archivepost(Request $request){
+        try {
+            $post_id = $request->post_id;
+            $post = Post::findOrFail($post_id);
+            if($post){
+                $post->archive=true;
+                $post->save();
+            }
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            Log::info('Post store');
             Log::info($e->getMessage());
             return response()->json(['success' => false]);
         }

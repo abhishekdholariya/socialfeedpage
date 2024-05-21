@@ -58,7 +58,7 @@
                     <h5 class="mb-1">{{$friend->fname}}</h5>
                     <p class="mb-1">{{$friend->headline}}</p>
                 </div>
-                <button class="btn btn-primary follow-btn" data-id="{{$friend->id}}">Unfollow</button>
+                <button class="btn btn-primary unfollow-btn" data-id="{{$friend->id}}">Unfollow</button>
             </span>
             @endforeach
         </div>
@@ -119,7 +119,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @auth
-
     <script>
         // profile update
         $(document).ready(function() {
@@ -152,10 +151,7 @@
             $('.follow-btn').on('click', function() {
                 const userId = $(this).data('id');
                 const button = $(this);
-
-                console.log('Follow button clicked for user ID:', userId);
-
-                $.ajax({
+                    $.ajax({
                     url: '{{ route("follow") }}',
                     type: 'POST',
                     data: {
@@ -172,6 +168,7 @@
                             const friendItem = $('<span class="list-group-item list-group-item-action d-flex align-items-center"></span>');
                             friendItem.append('<img class="rounded-circle mr-3 profile-img" width="50" height="50" src="uploads/' + response.user.profile + '" alt="profile img">');
                             friendItem.append('<div class="flex-grow-1"><h5 class="mb-1">' + response.user.fname + '</h5><p class="mb-1">' + response.user.headline + '</p></div>');
+                            friendItem.append('<button class="btn btn-primary unfollow-btn" data-id="' + response.user.id + '">Unfollow</button>')
                             $('#friendsList').append(friendItem);
                         } else {
                             alert(response.message);
@@ -183,7 +180,40 @@
                     }
                 });
             });
-        });
+
+            //unfollow
+            $('.unfollow-btn').on("click",function(){
+                const userId = $(this).data('id');
+                const button = $(this);
+                console.log('Follow button clicked for user ID:', userId);
+                $.ajax({
+                    url: '{{ route("unfollow") }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        user_id: userId
+                    },
+                    success: function(response) {
+                        console.log('Follow response:', response);
+                        if (response.status === 'success') {
+                            button.closest('.list-group-item').remove();
+                            // Add the user to the friends list
+                            const followers = $('<span class="list-group-item list-group-item-action d-flex align-items-center"></span>');
+                            followers.append('<img class="rounded-circle mr-3 profile-img" width="50" height="50" src="uploads/' + response.user.profile + '" alt="profile img">');
+                            followers.append('<div class="flex-grow-1"><h5 class="mb-1">' + response.user.fname + '</h5><p class="mb-1">' + response.user.headline + '</p></div>');
+                            friendItem.append('<button class="btn btn-primary follow-btn" data-id="' + response.user.id + '">Follow</button>')
+                            $('#followersList').append(followers);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Follow error:', status, error);
+                        alert('An error occurred while following the user.');
+                    }
+                });
+            })
+});
 
     </script>
 @endauth

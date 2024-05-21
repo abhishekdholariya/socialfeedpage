@@ -105,6 +105,7 @@
     const commentPost = "{{ route('commentpost') }}";
     const getComments = "{{ route('getcomments') }}";
     const deletePost = "{{ route('deletepost') }}";
+    const archivePost = "{{route('archivepost')}}";
 </script>
 
 <script src="{{ asset('js/post.js') }}"></script>

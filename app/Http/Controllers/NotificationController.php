@@ -13,20 +13,20 @@ class NotificationController extends Controller
     }
 
     public function likenotify(Request $request){
-        // Fetch notifications from the database
-        $notifications = Notification::latest()->get(); // Assuming you have a Notification model
+        $notifications = Notification::with(['user', 'post.user'])->latest()->get();
 
-        // Prepare the data to be sent as JSON response
-        $notificationData = [];
-        foreach ($notifications as $notification) {
-            $notificationData[] = [
-                'user_id' => $notification->user_id, // Replace with actual title attribute of your notification
-                'created_at' => $notification->created_at->diffForHumans(), // Format the timestamp as needed
-                'type' => $notification->type, // Replace with actual message attribute of your notification
+        $notificationData = $notifications->map(function ($notification) {
+            return [
+                'post' => $notification->post->post_img,
+                'post_user_name' => $notification->post->user->fname, 
+                'post_user_profile' => $notification->post->user->profile,
+                'user_name' => $notification->user->fname,
+                'user_profile' => $notification->user->profile,
+                'created_at' => $notification->created_at->diffForHumans(),
+                'type' => $notification->type,
             ];
-        }
+        });
 
-        // Return the notification data as JSON response
-        return response()->json(['notifications' => $notificationData]);
+    return response()->json(['notifications' => $notificationData]);
     }
 }

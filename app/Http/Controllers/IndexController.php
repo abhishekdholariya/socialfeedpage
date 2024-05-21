@@ -28,11 +28,20 @@ public function index()
 public function follow(Request $request)
 {
     $userToFollow = User::findOrFail($request->user_id);
-
-    // Check if already following to prevent duplicate follows
+    // Check if already following
     if (!Auth::user()->isFollowing($userToFollow)) {
         Auth::user()->follow($userToFollow);
     }
     return response()->json(['status' => 'success', 'message' => 'User followed successfully', 'user' => $userToFollow]);
+}
+
+public function unfollow(Request $request)
+{
+    $userToUnfollow = User::findOrFail($request->user_id);
+    // Check if already following
+    if (Auth::user()->isFollowing($userToUnfollow)) {
+        Auth::user()->unfollow($userToUnfollow);
+    }
+    return response()->json(['status' => 'success', 'message' => 'User unfollowed successfully', 'user' => $userToUnfollow]);
 }
 }

@@ -22,4 +22,9 @@ class Post extends Model
     public function likes(){
         return $this->hasMany(Like::class);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

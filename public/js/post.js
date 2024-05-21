@@ -48,6 +48,7 @@ $(function () {
                                     newPostHtml +=`
                                         <a href="#"><button class="dropdown-item edit-post" data-post_id="${post.id} type="button">Edit</button></a>
                                         <a href="#"><button class="dropdown-item delete-post" data-post_id="${post.id}" type="button">Delete</button></a>
+                                        <a href="#"><button class="dropdown-item archive-post" data-post_id="${post.id}" type="button">Archive</button></a>
                                     `;
                                     }
                                     else{
@@ -296,6 +297,34 @@ $(function () {
             }
         })
     })
+
+    //archive post
+    $(document).on("click", ".archive-post",function(e){
+        e.preventDefault();
+        var post_id=$(this).data("post_id");
+        var postElement = $(this).closest('.posts');
+        $.ajax({
+            url: archivePost,
+            type: "POST",
+            data: {
+                post_id: post_id,
+                _token: $('meta[name="csrf-token"]').attr("content"),
+            },
+            success: function(res){
+                if(res.success){
+                    alert('Post archived successfully');
+                    // $(this).closest('.post-item').remove();
+                    fetchAllPosts();
+                } else {
+                    alert('Failed to archive post: ' + res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Archive error:', status, error);
+                alert('An error occurred while archiving the post.');
+            }
+        });
+    });
         
     // edit post
     $(document).on("click",".edit-post",function(e){

@@ -3,7 +3,7 @@
     <div class="container-fluid">
   
       <div class="col-lg-3 col-sm-12">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{route('index')}}">
           <img src="https://www.iconfinder.com/static/img/favicons/favicon-32x32.png?87b2a5c3aa" alt="linkedinsvg" width="30" height="24" class="d-inline-block align-text-top" /> Social Page
         </a>
       </div>
@@ -12,7 +12,7 @@
       </button>
   
       <div class="col d-flex justify-content-around align-items-center">
-        <a class="navbar-brand position-relative" href="#">
+        <a class="navbar-brand position-relative" href="{{route('archivepost')}}">
           <i class="fa-solid fa-envelope p-3 border rounded-circle">
             <span class="position-absolute badge bg-danger">11</span></i></a>
         <a class="navbar-brand" href="{{route('notification')}}">
