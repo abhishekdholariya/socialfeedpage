@@ -12,6 +12,7 @@ class CommnetObserver
      */
     public function created(Comment $comment): void
     {
+        $user=$comment->User;
         Notification::create([
             'user_id' => $comment->post->user_id,
             'post_id' => $comment->post_id,

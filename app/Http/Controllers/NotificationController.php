@@ -5,28 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
     public function show(){
-        return view('layout.notification');
+        $user_id=Auth::id();
+        $notifications = Notification::with('user','post')->whereHas('post',function($query) use ($user_id){
+            $query->where('user_id',$user_id);
+        })
+        ->where('type','like')
+        ->orderBy('created_at','desc')
+        ->get();
+        // return $notifications;
+        return view('layout.notification', compact('notifications'));
     }
 
-    public function likenotify(Request $request){
-        $notifications = Notification::with(['user', 'post.user'])->latest()->get();
 
-        $notificationData = $notifications->map(function ($notification) {
-            return [
-                'post' => $notification->post->post_img,
-                'post_user_name' => $notification->post->user->fname, 
-                'post_user_profile' => $notification->post->user->profile,
-                'user_name' => $notification->user->fname,
-                'user_profile' => $notification->user->profile,
-                'created_at' => $notification->created_at->diffForHumans(),
-                'type' => $notification->type,
-            ];
-        });
-
-    return response()->json(['notifications' => $notificationData]);
-    }
 }

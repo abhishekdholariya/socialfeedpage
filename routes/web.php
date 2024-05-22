@@ -9,6 +9,7 @@ use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class,'index'])->name('index');
+Route::get('/notification', [IndexController::class,'index'])->name('notification');
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
 Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('credentials');
@@ -41,9 +42,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/unfollow', [IndexController::class, 'unfollow'])->name('unfollow');
 
     Route::get('/notification',[NotificationController::class,'show'])->name('notification');
-
-    Route::get('/notifications', [NotificationController::class, 'likenotify']);
+    // Route::get('/notifications', [NotificationController::class, 'likenotify']);
 
     // archive post
+    Route::get('/archivepost',[ArchivePostController::class,'show'])->name('archivepost');
     Route::post('/archivepost',[PostController::class,'archivepost'])->name('archivepost');
+    Route::post('/unarchivepost',[PostController::class,'unarchivePost'])->name('unarchivepost');
 });

@@ -12,8 +12,9 @@ class LikeObserver
      */
     public function created(Like $like): void
     {
+        $user=$like->user;
         Notification::create([
-            'user_id' => $like->post->user_id,
+            'user_id' => $user->id,
             'post_id' => $like->post_id,
             'type' => 'like',
         ]);

@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
-{
+{   
     use HasFactory;
     protected $table = 'notifications';
-    protected $fillable = [
-        'user_id', 'post_id', 'type', 'read_at'
-    ];
+    protected $fillable = ['user_id', 'post_id', 'type', 'read_at'];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -19,5 +17,9 @@ class Notification extends Model
     public function post()
     {
         return $this->belongsTo(Post::class);
+    }
+    public function like()
+    {
+        return $this->belongsTo('App\User', 'liker_user_id');
     }
 }

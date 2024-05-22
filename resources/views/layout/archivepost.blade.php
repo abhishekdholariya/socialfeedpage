@@ -2,73 +2,55 @@
 <html lang="en">
 <head>
     @include('layout.header')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     @include('layout.navbar')
-  <div class="container mt-5">
     <div class="row">
-      <div class="col-12">
-        <h1 class="mb-4">User Posts</h1>
+      <div class="container">
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h1>User Post</h1>
+            </div>
+        </div>
+        <div class="row">
+        @forEach($posts as $post)
+            <div class="col-lg-4 col-md-6 gallery-item">
+                <div class="card mt-4">
+                    <img src="postimg/{{$post->post_img}}" class="card-img-top" alt="Post 1">
+                    <div class="card-body">
+                        {{-- <p class="card-text">{{$post->post_details}}</p> --}}
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li>
+                                    <a class="dropdown-item delete-post" data-post_id="{{ $post->id }}" href="#">Delete</a>
+                                </li>
+                                <li>
+                                    @if($post->archive)
+                                        <a class="dropdown-item unarchive-post" data-post_id="{{ $post->id }}" href="#">UnArchive</a>
+                                    @else
+                                        <a class="dropdown-item archive-post" data-post_id="{{ $post->id }}" href="#">Archive</a>
+                                    @endif
+                                </li>
+                            </ul>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
       </div>
     </div>
-    <div class="row">
-      <!-- Post 1 -->
-      <div class="col-12 mb-4">
-        <div class="card">
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              <img src="https://via.placeholder.com/600x400" class="card-img" alt="Post Image">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Post Title 1</h5>
-                <p class="card-text">This is a brief summary of the post content. It gives a quick overview of what the post is about.</p>
-                <a href="#" class="btn btn-primary">Read More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Post 2 -->
-      <div class="col-12 mb-4">
-        <div class="card">
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              <img src="https://via.placeholder.com/600x400" class="card-img" alt="Post Image">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Post Title 2</h5>
-                <p class="card-text">This is a brief summary of the post content. It gives a quick overview of what the post is about.</p>
-                <a href="#" class="btn btn-primary">Read More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Post 3 -->
-      <div class="col-12 mb-4">
-        <div class="card">
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              <img src="https://via.placeholder.com/600x400" class="card-img" alt="Post Image">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Post Title 3</h5>
-                <p class="card-text">This is a brief summary of the post content. It gives a quick overview of what the post is about.</p>
-                <a href="#" class="btn btn-primary">Read More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Additional posts can be added in the same structure -->
-    </div>
-  </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    const deletePost = "{{ route('deletepost') }}";
+    const unarchivepost="{{ route('unarchivepost') }}";
+    const archivePost = "{{route('archivepost')}}";
+    </script>
+    <script src="{{ asset('js/post.js') }}"></script>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

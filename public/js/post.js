@@ -1,7 +1,6 @@
 let modalElement = null;
 
 $(function () {
-
     // get all post
     function fetchAllPosts() {
         $.ajax({
@@ -35,29 +34,6 @@ $(function () {
                                     <div class="ml-2">
                                         <div class="h5 m-0">${post.user.fname}</div>
                                         <div class="h7 text-muted">${post.user.headline}</div>
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <button class="btn btn-link" type="button" id="drop-dwon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-ellipsis-h"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">`;
-
-                                    if (post.user_id==user_id) {
-                                        
-                                    newPostHtml +=`
-                                        <a href="#"><button class="dropdown-item edit-post" data-post_id="${post.id} type="button">Edit</button></a>
-                                        <a href="#"><button class="dropdown-item delete-post" data-post_id="${post.id}" type="button">Delete</button></a>
-                                        <a href="#"><button class="dropdown-item archive-post" data-post_id="${post.id}" type="button">Archive</button></a>
-                                    `;
-                                    }
-                                    else{
-                                    newPostHtml+=`
-                                        <a href="#"><button class="dropdown-item" type="button">Report</button></a>
-                                    `;
-                                }
-                                newPostHtml+=`
-
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +141,8 @@ $(function () {
             },
             success: function (res) {
                 if (res.success) {
-                    var commentHtml = `<!-- Comment Modal -->
+                    var commentHtml = `
+                    <!-- Comment Modal -->
                     <div class="modal fade" id="commentModel" tabindex="-1" role="dialog" aria-labelledby="commentModelLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -270,6 +247,32 @@ $(function () {
         }
     });
 
+    // comment on reply
+    // $(document).on("click", ".reply-comment", function(e) {
+    //     e.preventDefault();
+    //     var comment_id = $(this).data("commentid");
+    //     var replyText = prompt("Enter your reply:");
+    //     if (replyText && user_id != 0) {
+    //         $.ajax({
+    //             url: '', // Define the URL to post a reply
+    //             type: "POST",
+    //             data: {
+    //                 comment_id: comment_id,
+    //                 comment: replyText,
+    //                 user_id: user_id,
+    //                 _token: $('meta[name="csrf-token"]').attr("content"),
+    //             },
+    //             success: function(res) {
+    //                 if (res.success) {
+    //                     loadComments($('#commentModal').data('postid'));
+    //                 }
+    //             },
+    //         });
+    //     } else {
+    //         alert("Please login to reply to comments");
+    //     }
+    // });
+
     $(document).on("click", ".close_comment_model", function (e) {
         e.preventDefault();
             $("#commentModel").modal("hide");
@@ -325,6 +328,34 @@ $(function () {
             }
         });
     });
+
+    // unarchive post
+    $(document).on("click", ".unarchive-post", function(e) {
+        e.preventDefault();
+        var post_id = $(this).data("post_id");
+        var postElement = $(this).closest('.posts');
+        console.log(post_id);
+        $.ajax({
+            url: unarchivepost,
+            type: "POST",
+            data: {
+                post_id: post_id,
+                _token: $('meta[name="csrf-token"]').attr("content"),
+            },
+            success: function(res) {
+                if (res.success) {
+                    alert('Post unarchived successfully');
+                    // $(this).closest('.post-item').remove();
+                } else {
+                    alert('Failed to unarchive post: ' + res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Unarchive error:', status, error);
+                alert('An error occurred while unarchiving the post.');
+            }
+        });
+    });
         
     // edit post
     $(document).on("click",".edit-post",function(e){
@@ -341,4 +372,26 @@ $(function () {
 });
 
 
+    // <div class="dropdown">
+    // <button class="btn btn-link" type="button" id="drop-dwon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    //     <i class="fa fa-ellipsis-h"></i>
+    // </button>
+    // <div class="dropdown-menu" aria-labelledby="dropdownMenu2">`;
 
+    // if (post.user_id==user_id) {
+        
+    // newPostHtml +=`
+    //     <a href="#"><button class="dropdown-item edit-post" data-post_id="${post.id} type="button">Edit</button></a>
+    //     <a href="#"><button class="dropdown-item delete-post" data-post_id="${post.id}" type="button">Delete</button></a>
+    //     <a href="#"><button class="dropdown-item archive-post" data-post_id="${post.id}" type="button">Archive</button></a>
+    // `;
+    // }
+    // else{
+    // newPostHtml+=`
+    //     <a href="#"><button class="dropdown-item" type="button">Report</button></a>
+    // `;
+    // }
+    // newPostHtml+=`
+
+    // </div>
+    // </div>

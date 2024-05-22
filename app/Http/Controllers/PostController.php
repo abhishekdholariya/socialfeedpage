@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
+use App\Notifications\PostNotification;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Exception;
@@ -16,6 +17,7 @@ class PostController extends Controller
     public function show(){
         try{
             $posts = Post::with('user','likes')->withCount('comments')->where('archive',0)->get();
+            // $notification=auth()->user()->notifications;
             return response()->json(['success' => true, 'posts' => $posts]);
         } catch (Exception $e) {
             Log::info('Post store');
@@ -23,7 +25,7 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
-
+    // add post
     public function addpost(Request $request) {
         try {
             $request->validate([
@@ -112,11 +114,12 @@ class PostController extends Controller
         }
     }
 
+    // reply on comment
+    
     //delete post
     public function deletePost(Request $request){
         try {
             $post_id = $request->post_id;
-            dd($post_id);
             $post = Post::findOrFail($post_id);
             $post->delete(); 
             return response()->json(['success' => true]);
@@ -141,6 +144,36 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
+    public function unarchivePost(Request $request){
+        try {
+            $post_id = $request->post_id;
+            $post = Post::findOrFail($post_id);
+            if($post){
+                $post->archive = false;
+                $post->save();
+            }
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            Log::info('Post store');
+            Log::info($e->getMessage());
+            return response()->json(['success' => false]);
+        }
+    }
+
+    // public function unarchivepost(Request $request){
+    //     try {
+    //         $post_id = $request->post_id;
+    //         $post = Post::findOrFail($post_id);
+    //         if ($post) {
+    //             $post->archive = false;
+    //             $post->save();
+    //         }
+    //         return response()->json(['success' => true]);
+    //     } catch (Exception $e) {
+    //         Log::info('Unarchive post error');
+    //         Log::info($e->getMessage());
+    //         return response()->json(['success' => false]);
+    //     }
+    // }
+    
 }
-
-
