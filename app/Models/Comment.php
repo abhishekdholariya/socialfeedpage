@@ -10,7 +10,7 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['comment', 'user_id', 'post_id'];
+    protected $fillable = ['comment', 'user_id', 'post_id', 'parent_id'];
 
     /**
      * Get the user that owns the Comment
@@ -20,6 +20,22 @@ class Comment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    // comment reply add
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id')->with('user');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
     }
 
 }

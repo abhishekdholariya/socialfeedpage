@@ -129,11 +129,84 @@ $(function () {
     });
 
     // get comment
+    // $(document).on("click", ".card-comment", function (e) {
+    //     e.preventDefault();
+    //     var post_id = $(this).data("postid");
+    //     $.ajax({
+    //         url: getComments,
+    //         type: "POST",
+    //         data: {
+    //             post_id: post_id,
+    //             _token: $('meta[name="csrf-token"]').attr("content"),
+    //         },
+    //         success: function (res) {
+    //             if (res.success) {
+    //                 var commentHtml = `
+    //                 <!-- Comment Modal -->
+    //                 <div class="modal fade" id="commentModel" tabindex="-1" role="dialog" aria-labelledby="commentModelLabel" aria-hidden="true">
+    //                     <div class="modal-dialog" role="document">
+    //                         <div class="modal-content">
+    //                             <div class="modal-header">
+    //                                 <h5 class="modal-title" id="commentModelLabel">Comments</h5>
+    //                                 <button type="button" class="close close_comment_model">
+    //                                     <span aria-hidden="true">&times;</span>
+    //                                 </button>
+    //                             </div>
+                            
+    //                             <div class="modal-body">
+    //                                 <ul id="comment-history" class="list-group">
+
+    //                                     <!-- Comments appended -->
+                                    
+    //                                 </ul>
+    //                             <div class="form-group">
+    //                                 <textarea id="comment-text" class="form-control" placeholder="Write your comment here..."></textarea>
+    //                             </div>
+    //                             </div>
+                                    
+    //                             <div class="modal-footer">
+    //                                 <button type="button" class="btn btn-secondary close_comment_model" data-dismiss="modal">Close</button>
+    //                                 <button type="button" class="btn btn-primary " id="addComment" data-postId="${post_id}">Submit</button>
+    //                             </div>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //                 </div>`;
+
+    //                 $("body").append(commentHtml);
+    //                 $("#commentModel").modal("show");
+    //                 modalElement = document.getElementById("commentModel");
+    //                 modalElement.addEventListener("hide.bs.modal", function () {$("#commentModel").remove();});
+    //                 $("#commentModel").modal({ keyboard: false });
+    //                 $.each(res.comments, function (index, comment) {
+    //                     var newComment = `<li class="list-group   list-group-item">
+    //                     <div>
+    //                         <div class="d-flex align-items-center">
+    //                             <div class="mr-2">
+    //                                 <img class="rounded-circle" width="45" height="45" src="uploads/${comment.user.profile}" alt="profile img" />
+    //                             </div>
+    //                             <div class="ml-2">
+    //                                 <h6 class="fw-bold mb-1">${comment.user.fname}</h6>
+    //                                 <small class="text-muted">${new Date(comment.created_at).toLocaleString()} </small>
+    //                             </div>
+    //                         </div>
+    //                         <div class="mt-2 ml-5 pl-3">
+    //                             <p class="text-muted">${comment.comment}</p>
+    //                         </div>
+    //                     </li>`;
+    //                     $("#comment-history").append(newComment);
+    //                 });
+    //             }
+    //         },
+    //     });
+    // });
+
+    // comment reply add
     $(document).on("click", ".card-comment", function (e) {
         e.preventDefault();
         var post_id = $(this).data("postid");
         $.ajax({
-            url: getComments,
+            url: '/get-comments',
             type: "POST",
             data: {
                 post_id: post_id,
@@ -152,55 +225,120 @@ $(function () {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                            
                                 <div class="modal-body">
                                     <ul id="comment-history" class="list-group">
-
                                         <!-- Comments appended -->
-                                    
                                     </ul>
-                                <div class="form-group">
-                                    <textarea id="comment-text" class="form-control" placeholder="Write your comment here..."></textarea>
+                                    <div class="form-group">
+                                        <textarea id="comment-text" class="form-control" placeholder="Write your comment here..."></textarea>
+                                    </div>
                                 </div>
-                                </div>
-                                    
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary close_comment_model" data-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-primary " id="addComment" data-postId="${post_id}">Submit</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>`;
-
                     $("body").append(commentHtml);
                     $("#commentModel").modal("show");
                     modalElement = document.getElementById("commentModel");
-                    modalElement.addEventListener("hide.bs.modal", function () {$("#commentModel").remove();});
+                    modalElement.addEventListener("hide.bs.modal", function () { $("#commentModel").remove(); });
                     $("#commentModel").modal({ keyboard: false });
+    
                     $.each(res.comments, function (index, comment) {
-                        var newComment = `<li class="list-group   list-group-item">
-                        <div>
-                            <div class="d-flex align-items-center">
-                                <div class="mr-2">
-                                    <img class="rounded-circle" width="45" height="45" src="uploads/${comment.user.profile}" alt="profile img" />
+                        var newComment = `
+                        <li class="list-group-item">
+                            <div>
+                                <div class="d-flex align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" height="45" src="uploads/${comment.user.profile}" alt="profile img" />
+                                    </div>
+                                    <div class="ml-2">
+                                        <h6 class="fw-bold mb-1">${comment.user.fname}</h6>
+                                        <small class="text-muted">${new Date(comment.created_at).toLocaleString()}</small>
+                                    </div>
                                 </div>
-                                <div class="ml-2">
-                                    <h6 class="fw-bold mb-1">${comment.user.fname}</h6>
-                                    <small class="text-muted">${new Date(comment.created_at).toLocaleString()} </small>
+                                <div class="mt-2 ml-5 pl-3">
+                                    <p class="text-muted">${comment.comment}</p>
+                                    <button class="btn btn-sm btn-link reply-btn" data-comment-id="${comment.id}">Reply</button>
+                                    <div class="reply-section" id="reply-section-${comment.id}" style="display: none;">
+                                        <textarea class="form-control reply-text" placeholder="Write your reply here..."></textarea>
+                                        <button class="btn btn-primary btn-sm submit-reply-btn" data-post-id="${post_id}" data-parent-id="${comment.id}">Submit Reply</button>
+                                    </div>
+                                    <ul class="list-group reply-list" id="reply-list-${comment.id}">
+                                        ${comment.replies.map(reply => `
+                                        <li class="list-group-item">
+                                            <div class="d-flex align-items-center">
+                                                <div class="mr-2">
+                                                    <img class="rounded-circle" width="35" height="35" src="uploads/${reply.user.profile}" alt="profile img" />
+                                                </div>
+                                                <div class="ml-2">
+                                                    <h6 class="fw-bold mb-1">${reply.user.fname}</h6>
+                                                    <small class="text-muted">${new Date(reply.created_at).toLocaleString()}</small>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2 ml-5 pl-3">
+                                                <p class="text-muted">${reply.comment}</p>
+                                            </div>
+                                        </li>`).join('')}
+                                    </ul>
                                 </div>
-                            </div>
-                            <div class="mt-2 ml-5 pl-3">
-                                <p class="text-muted">${comment.comment}</p>
                             </div>
                         </li>`;
                         $("#comment-history").append(newComment);
                     });
                 }
-            },
+            }
         });
     });
-
+    
+    $(document).on("click", ".reply-btn", function () {
+        var commentId = $(this).data("comment-id");
+        $("#reply-section-" + commentId).toggle();
+    });
+    
+    $(document).on("click", ".submit-reply-btn", function () {
+        var postId = $(this).data("post-id");
+        var parentId = $(this).data("parent-id");
+        var replyText = $("#reply-section-" + parentId).find(".reply-text").val();
+        if (replyText) {
+            $.ajax({
+                url: '/submit-reply',
+                type: "POST",
+                data: {
+                    post_id: postId,
+                    parent_id: parentId,
+                    comment: replyText,
+                    _token: $('meta[name="csrf-token"]').attr("content"),
+                },
+                success: function (res) {
+                    console.log(res);
+                        if (res.success) {
+                        var newReply = `
+                        <li class="list-group-item">
+                            <div class="d-flex align-items-center">
+                                <div class="mr-2">
+                                    <img class="rounded-circle" width="35" height="35" src="uploads/${res.comment.user.profile}" alt="profile img" />
+                                </div>
+                                <div class="ml-2">
+                                    <h6 class="fw-bold mb-1">${res.comment.user.fname}</h6>
+                                    <small class="text-muted">${new Date(res.comment.created_at).toLocaleString()}</small>
+                                </div>
+                            </div>
+                            <div class="mt-2 ml-5 pl-3">
+                                <p class="text-muted">${res.comment.comment}</p>
+                            </div>
+                        </li>`;
+                        $("#reply-list-" + parentId).append(newReply);
+                        $("#reply-section-" + parentId).find(".reply-text").val('');
+                        $("#reply-section-" + parentId).hide();
+                    }
+                }
+            });
+        }
+    });
+    
     // comment on post
     $(document).on("click", "#addComment", function (e) {
         e.preventDefault();
@@ -221,7 +359,7 @@ $(function () {
                         $("#comment-text").val("");
                         $("#comment-history").html("");
                         $.each(res.comments, function (index, comment) {
-                            var newComment = `<li class="list-group   list-group-item">
+                            var newComments = `<li class="list-group   list-group-item">
                             <div>
                                 <div class="d-flex align-items-center">
                                     <div class="mr-2">
@@ -236,9 +374,9 @@ $(function () {
                                     <p class="text-muted">${comment.comment}</p>
                                 </div>
                             </li>`;
-                            $("#comment-history").append(newComment);
+                            $("#comment-history").append(newComments);
                         });
-                        $("#comment-history").append(newComment);
+                        $("#comment-history").append(newComments);
                     }
                 },
             });
@@ -247,31 +385,6 @@ $(function () {
         }
     });
 
-    // comment on reply
-    // $(document).on("click", ".reply-comment", function(e) {
-    //     e.preventDefault();
-    //     var comment_id = $(this).data("commentid");
-    //     var replyText = prompt("Enter your reply:");
-    //     if (replyText && user_id != 0) {
-    //         $.ajax({
-    //             url: '', // Define the URL to post a reply
-    //             type: "POST",
-    //             data: {
-    //                 comment_id: comment_id,
-    //                 comment: replyText,
-    //                 user_id: user_id,
-    //                 _token: $('meta[name="csrf-token"]').attr("content"),
-    //             },
-    //             success: function(res) {
-    //                 if (res.success) {
-    //                     loadComments($('#commentModal').data('postid'));
-    //                 }
-    //             },
-    //         });
-    //     } else {
-    //         alert("Please login to reply to comments");
-    //     }
-    // });
 
     $(document).on("click", ".close_comment_model", function (e) {
         e.preventDefault();

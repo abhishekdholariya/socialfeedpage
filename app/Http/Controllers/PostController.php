@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
@@ -104,9 +105,21 @@ class PostController extends Controller
     // getcomments
     public function getcomments(Request $request){
         try {
-            $post_id = $request->post_id;
-            $comments = Post::find($post_id)->comments()->with('user')->get();
-            return response()->json(['success' => true, 'comments' => $comments]);
+            // $post_id = $request->post_id;
+            // $comments = Post::find($post_id)->comments()->with('user')->get();
+            // return response()->json(['success' => true, 'comments' => $comments]);
+
+            // commnet reply add
+            $postId = $request->post_id;
+            $comments = Comment::where('post_id', $postId)
+            ->whereNull('parent_id')
+            ->with(['user', 'replies.user'])
+            ->get();
+
+            return response()->json([
+                'success' => true,
+                'comments' => $comments
+            ]);
         } catch (Exception $e) {
             Log::info('Post getcomments');
             Log::info($e->getMessage());
@@ -115,7 +128,29 @@ class PostController extends Controller
     }
 
     // reply on comment
-    
+    public function submitReply(Request $request)
+    {
+        $validatedData = $request->validate([
+            'post_id' => 'required|exists:posts,id',
+            'parent_id' => 'nullable|exists:comments,id',
+            'comment' => 'required|string',
+        ]);
+
+        $comment = new Comment();
+        $comment->post_id = $validatedData['post_id'];
+        $comment->user_id = auth()->id();
+        $comment->parent_id = $validatedData['parent_id'];
+        $comment->comment = $validatedData['comment'];
+        $comment->save();
+
+        $comment->load('user');
+
+        return response()->json([
+            'success' => true,
+            'comment' => $comment
+        ]);
+    }
+        
     //delete post
     public function deletePost(Request $request){
         try {

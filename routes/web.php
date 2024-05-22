@@ -34,6 +34,10 @@ Route::group(['middleware' => 'auth'], function () {
     // commentpost
     Route::post('/commentpost', [PostController::class, 'commentpost'])->name('commentpost');
 
+    // add reply comment
+    Route::post('/get-comments', [PostController::class, 'getComments'])->name('comments.get');
+    Route::post('/submit-reply', [PostController::class, 'submitReply'])->name('comments.reply');
+
     //delete post
     Route::delete('/deletepost',[PostController::class, 'deletepost'])->name('deletepost');
 
