@@ -19,15 +19,13 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mr-2">
-                                    @auth
-
-                                        <img class="rounded-circle" width="45" height="45"
-                                            src="uploads/{{ auth()->user()->profile }}" alt="profile pic" />
-                                    @endauth
-                                    @guest
-                                        <img class="rounded-circle" width="45" height="45"
-                                            src="{{ asset('images/default.jpeg') }}" alt="profile pic" />
-                                    @endguest
+                                    @if(auth()->user()->google_id)
+                                    <img class="rounded-circle user-img" width="50" height="50"
+                                        src="{{ auth()->user()->profile }}" alt="profile_img" id="profile-img" />
+                                    @else
+                                    <img class="rounded-circle user-img" width="50" height="50"
+                                        src="uploads/{{ auth()->user()->profile }}" alt="profile_img" id="profile-img" />
+                                    @endif
                                 </div>
                                 <div class="ml-2">
                                     <div>

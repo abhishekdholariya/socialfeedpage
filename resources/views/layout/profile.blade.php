@@ -6,8 +6,13 @@
                 <div class="h5 text-center">My Profile</div>
                 <center>
                 <div class="m-0">
+                    @if(auth()->user()->google_id)
+                    <img class="rounded-circle user-img" width="70" height="70"
+                        src="{{ auth()->user()->profile }}" alt="profile_img" id="profile-img" />
+                    @else
                     <img class="rounded-circle user-img" width="70" height="70"
                         src="uploads/{{ auth()->user()->profile }}" alt="profile_img" id="profile-img" />
+                    @endif
                     </div>
                 </center>
                 <div class="h7 font-weight-bold text-center">
@@ -34,13 +39,18 @@
         </div>
     @endauth
     
+    @php
+    function profileImg($profile) {
+        return Str::startsWith($profile, ['http://', 'https://']) ? $profile : asset('uploads/' . $profile);
+    }
+    @endphp
     <!-- Followers List -->
     <div class="container mt-5">
         <h2 class="mb-4">Followers List</h2>
         <div class="list-group" id="followersList">
             @foreach ($potentialFriends as $friend)
             <span class="list-group-item list-group-item-action d-flex align-items-center">
-                <img class="rounded-circle mr-3 profile-img" width="50" height="50" src="uploads/{{$friend->profile}}" alt="profile img">
+                <img class="rounded-circle mr-3 profile-img" width="50" height="50" src="{{ profileImg($friend->profile) }}" alt="profile img">
                 <div class="flex-grow-1">
                     <h5 class="mb-1">{{$friend->fname}}</h5>
                     <p class="mb-1">{{$friend->headline}}</p>
@@ -57,7 +67,7 @@
         <div class="list-group" id="friendsList">
             @foreach ($friends as $friend)
             <span class="list-group-item list-group-item-action d-flex align-items-center">
-                <img class="rounded-circle mr-3 profile-img" width="50" height="50" src="uploads/{{$friend->profile}}" alt="profile img">
+                <img class="rounded-circle mr-3 profile-img" width="50" height="50" src="{{ profileImg($friend->profile) }}" alt="profile img">
                 <div class="flex-grow-1">
                     <h5 class="mb-1">{{$friend->fname}}</h5>
                     <p class="mb-1">{{$friend->headline}}</p>
@@ -164,8 +174,9 @@
                             button.closest('.list-group-item').remove();
 
                             // Add the user to the friends list
+                            let profileImgSrc = response.user.profile.startsWith('http') ? response.user.profile : `uploads/${response.user.profile}`;
                             const friendItem = $('<span class="list-group-item list-group-item-action d-flex align-items-center"></span>');
-                            friendItem.append('<img class="rounded-circle mr-3 profile-img" width="50" height="50" src="uploads/' + response.user.profile + '" alt="profile img">');
+                            friendItem.append('<img class="rounded-circle mr-3 profile-img" width="50" height="50" src="profileImgSr" alt="profile img">');
                             friendItem.append('<div class="flex-grow-1"><h5 class="mb-1">' + response.user.fname + '</h5><p class="mb-1">' + response.user.headline + '</p></div>');
                             friendItem.append('<button class="btn btn-primary unfollow-btn" data-id="' + response.user.id + '">Unfollow</button>')
                             $('#friendsList').append(friendItem);

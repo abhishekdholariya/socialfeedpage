@@ -5,6 +5,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
     <style>
         body {
             display: flex;
@@ -64,16 +68,21 @@
                                 @endif
                                 <label for='password'>Enter your password</label>
                             </div>
-                            <label style='float: right;'>
-                                <a class='pink-text' href="{{route('forgotpassword')}}"><b>Forgot Password?</b></a>
-                            </label>
                         </div>
-
-                        <br />
+                        <label style='float: right;'>
+                            <a class='pink-text' href="{{ route('forgotpassword') }}"><b>Forgot Password?</b></a>
+                        </label>
                         <center>
                             <div class='row'>
-                                <button type='submit' name='btn_login'
-                                    class='col s12 btn btn-large waves-effect indigo btnRegister'>Login</button>
+                                <div>
+                                    <button type='submit' name='btn_login'
+                                        class='col s12 btn btn-login waves-effect indigo btnRegister'>Login</button>
+
+                                    </br>
+                                    <a href="{{ route('googlelogin') }}" class="col s12 btn btn-google btn-user btn-block mt-2">
+                                        <i class="fab fa-google fa-fw"></i> Login with Google
+                                    </a>
+                                </div>
                             </div>
                         </center>
                     </form>
@@ -84,7 +93,8 @@
     </main>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js">
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
     <script>

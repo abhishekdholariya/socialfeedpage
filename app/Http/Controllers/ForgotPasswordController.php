@@ -37,31 +37,6 @@ class ForgotPasswordController extends Controller
         return view('layout.changepassword',compact('token'));
     }
 
-    // public function update(Request $request){
-    //     $request->validate([
-    //         'email'=>'required | email | exists:users',
-    //         'newpassword'=>'required | min:6',
-    //         'conpassword'=>'required'
-    //     ]);
-
-    //     $updatpassword = ForgotPassword::where([
-    //         'email'=>$request->email,
-    //         'token'=>$request->token,
-    //     ])->first();    
-    //     if(!$updatpassword){
-    //         return redirect()->route('resetpassword')->with('error','Invalid');
-    //     }
-        
-    //     $user=User::where('email',$request->email)->first();
-    //     if($user){
-    //         $user->password=Hash::make($request->password);
-    //         $user->save();
-    //         ForgotPassword::where(['email'=>$request->email])->delete();
-    //         return redirect()->route('login')->with('success','password succsess');
-    //     }
-    //     return redirect()->route('resetpassword')->with('error','invalid email address');
-
-    // }
     public function update(Request $request){
         $request->validate([
             'email' => 'required|email|exists:users,email',

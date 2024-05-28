@@ -22,14 +22,15 @@ $(function () {
                             }
                         });
                         let likeClass = isLiked ? "fa-solid" : "fa-regular";
-
+                        let profileImgSrc = post.user.profile.startsWith('http') ? post.user.profile : `uploads/${post.user.profile}`;
+                        
                         var newPostHtml = `
                     <div class="card gedf-card mb-2 posts">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mr-2">
-                                        <img class="rounded-circle" width="50" height="50" src="uploads/${post.user.profile}" alt="profile img" />
+                                        <img class="rounded-circle" width="50" height="50" src="${profileImgSrc}" alt="profile img" />
                                     </div>
                                     <div class="ml-2">
                                         <div class="h5 m-0">${post.user.fname}</div>

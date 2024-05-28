@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArchivePostController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NotificationController;
@@ -27,6 +28,9 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/forgot',[ForgotPasswordController::class,'store'])->name('forgotpasswordpost');
     Route::get('/resetpassword/{token}',[ForgotPasswordController::class,'reset'])->name('resetpassword');
     Route::post('/resetpasswordpost',[ForgotPasswordController::class,'update'])->name('resetpasswordpost');
+
+    Route::get('/login/google',[GoogleLoginController::class,'redirectToGoogle'])->name('googlelogin');
+    Route::get('/login/google/callback',[GoogleLoginController::class,'handleGoogleCallback'])->name('googlelogincallback');
 });
 
 Route::group(['middleware' => 'auth'], function () {
