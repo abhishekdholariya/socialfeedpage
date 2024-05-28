@@ -2,17 +2,22 @@
 <div class="col-md-3">
     @auth
         <div class="card">
-            <div class="card-body" data-bs-toggle="modal" data-bs-target="#profilemodal">
+            <div class="card-body">
                 <div class="h5 text-center">My Profile</div>
+                <center>
                 <div class="m-0">
                     <img class="rounded-circle user-img" width="70" height="70"
                         src="uploads/{{ auth()->user()->profile }}" alt="profile_img" id="profile-img" />
+                    </div>
+                </center>
+                <div class="h7 font-weight-bold text-center">
+                    UserName : <span id="profile-name">{{ auth()->user()->fname }} {{ auth()->user()->lname }}</span>
                 </div>
                 <div class="h7 font-weight-bold text-center">
-                    UserName : <span id="profile-name">{{ auth()->user()->fname }}</span>
+                    Email : {{ auth()->user()->email }}
                 </div>
                 <div class="h7 font-weight-bold text-center">
-                    {{ auth()->user()->headline }}
+                    Headline : {{ auth()->user()->headline }}
                 </div>
                 <div class="h7 font-weight-bold text-center">
                     <ul class="list-group list-group-flush">
@@ -21,8 +26,7 @@
                             <div class="h5">523</div>
                         </li>
                         <li class="list-group-item">
-                            <div class="h6 text-muted">City</div>
-                            <div class="h5">Ahmedabad, Gujarat, India</div>
+                            <div class="h6 text-muted"><button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#profilemodal">Edit Profile</button></div>
                         </li>
                     </ul>
                 </div>
@@ -69,7 +73,7 @@
 
 @auth
 
-<!-- profile modal -->
+{{-- profile modal --}}
 <div class="modal fade" id="profilemodal" data-backdrop="static">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -96,11 +100,6 @@
                                 value="{{ auth()->user()->email }}">
                         </div>
                         <div class="form-group">
-                            <label for="user_password">Password:</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                value="{{ auth()->user()->password }}">
-                        </div>
-                        <div class="form-group">
                             <label for="user_profile">Profile:</label>
                             <input type="file" class="form-control-file" id="profile" name="profile"
                                 value="{{ auth()->user()->profile }}">
@@ -114,7 +113,7 @@
             </div>
         </div>
     </div>
-    {{-- profile end --}}
+{{-- profile end --}}
 @endauth
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -146,8 +145,8 @@
             });
         });
 
-        // following
         document.addEventListener('DOMContentLoaded', function() {
+            // follow
             $('.follow-btn').on('click', function() {
                 const userId = $(this).data('id');
                 const button = $(this);

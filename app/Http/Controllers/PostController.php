@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
+    //get all post 
     public function show(){
         try{
             $posts = Post::with('user','likes')->withCount('comments')->where('archive',0)->get();
@@ -57,7 +58,8 @@ class PostController extends Controller
     public function likepost(Request $request){
         try {
             $post_id = $request->post_id;
-            $user_id = $request->user_id;
+            $user = Auth::user();
+            $user_id = $user->id;
             $like = Post::find($post_id)->likes()->where('user_id',$user_id)->first();
             if($like){
                 $like->delete();
@@ -67,15 +69,14 @@ class PostController extends Controller
                 Post::find($post_id)->likes()->create(['user_id'=>$user_id]);
                 $total_post_like = Post::find($post_id)->likes()->count();
                 
-                //notification
-                $post = Post::findOrFail($post_id);
-                $postOwner = $post->user;
-                // Create a notification for the post owner
-                Notification::create([
-                    'user_id' => $postOwner->id,
-                    'post_id' => $post_id,
-                    'type' => 'like'
-                ]);
+                    //notification
+                    $post = Post::findOrFail($post_id);
+                    // Create a notification for the post owner
+                    Notification::create([
+                        'user_id' => $user_id,
+                        'post_id' => $post_id,
+                        'type' => 'like'
+                    ]);
                 return response()->json(['success' => true, 'like' => true, 'total_post_like' => $total_post_like]);
             }
         } catch (Exception $e) {
@@ -128,8 +129,7 @@ class PostController extends Controller
     }
 
     // reply on comment
-    public function submitReply(Request $request)
-    {
+    public function submitReply(Request $request){
         $validatedData = $request->validate([
             'post_id' => 'required|exists:posts,id',
             'parent_id' => 'nullable|exists:comments,id',
@@ -164,6 +164,8 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
+
+    //archive post 
     public function archivepost(Request $request){
         try {
             $post_id = $request->post_id;
@@ -179,6 +181,8 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
+
+    // unarchive post
     public function unarchivePost(Request $request){
         try {
             $post_id = $request->post_id;
@@ -194,21 +198,5 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
-
-    // public function unarchivepost(Request $request){
-    //     try {
-    //         $post_id = $request->post_id;
-    //         $post = Post::findOrFail($post_id);
-    //         if ($post) {
-    //             $post->archive = false;
-    //             $post->save();
-    //         }
-    //         return response()->json(['success' => true]);
-    //     } catch (Exception $e) {
-    //         Log::info('Unarchive post error');
-    //         Log::info($e->getMessage());
-    //         return response()->json(['success' => false]);
-    //     }
-    // }
     
 }

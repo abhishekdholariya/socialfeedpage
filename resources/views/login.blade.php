@@ -1,54 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    @section('title')
-    Login Form
-    @endsection
-    
-    @include('layout.header')
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        body {
+            background: #fff;
+        }
+
+        .error {
+            color: rgb(231, 30, 30);
+        }
+    </style>
 </head>
 
 <body>
-    
-    <div class="container register">
-        <div class="row">
-            <div class="col-md-3 register-left d-flex align-items-center">
-                <h3>Welcome Back</h3>
-            </div>
-            <div class="col-md-9 register-right">
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <h3 class="register-heading">Login Form</h3>
-                        <form id="loginForm" action="" method="POST">
-                            @csrf
-                            <div class="row register-form d-flex justify-content-center">
-                                <div class="col-8">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Your Email *" name="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" placeholder="Password *" name="password">
-                                    </div>
-                                    <div class="form-group d-flex justify-content-between">
-                                        <div>
-                                            <h6>New to Social page? <a href="/register">Join Now</a></h6>
-                                        </div>
-                                        <div>
-                                            <h6><a href="">Forgot Password?</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="submit" class="btnRegister" value="Login" />
+    <div class="section"></div>
+    <main>
+        <center>
+            <div class="section"></div>
+
+            <h5 class="indigo-text">Please, login into your account</h5>
+            <div class="section"></div>
+
+            <div class="container">
+                <div class="z-depth-2 grey lighten-2 row"
+                    style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
+                    <form id="loginForm" action="" method="POST">
+                        @csrf
+                        <div class='row'>
+                            <div class='col s12'>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+
+                        <div class='row'>
+                            <div class='input-field col s12'>
+                                <input type="text" class="validate" name="email" id='email'>
+                                @if ($errors->has('email'))
+                                    <div class="error">{{ $errors->first('email') }}</div>
+                                @endif
+                                <label for='email'>Enter your email</label>
+                            </div>
+                        </div>
+
+                        <div class='row'>
+                            <div class='input-field col s12'>
+                                <input type="password" class="validate" name="password" id='password'>
+                                @if ($errors->has('password'))
+                                    <div class="error">{{ $errors->first('password') }}</div>
+                                @endif
+                                <label for='password'>Enter your password</label>
+                            </div>
+                            <label style='float: right;'>
+                                <a class='pink-text' href="{{route('forgotpassword')}}"><b>Forgot Password?</b></a>
+                            </label>
+                        </div>
+
+                        <br />
+                        <center>
+                            <div class='row'>
+                                <button type='submit' name='btn_login'
+                                    class='col s12 btn btn-large waves-effect indigo btnRegister'>Login</button>
+                            </div>
+                        </center>
+                    </form>
                 </div>
             </div>
-        </div>
-    </div>
+            <a href="/register">Create account</a>
+        </center>
+    </main>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#loginForm').validate({
                 rules: {
                     email: {
@@ -67,7 +107,7 @@
                     },
                     password: {
                         required: "Please enter your password",
-                        minlength: "Your password must be at least 6 characters long"
+                        minlength: "must be at least 6 characters   "
                     }
                 },
                 errorElement: 'div',
@@ -85,4 +125,5 @@
         });
     </script>
 </body>
+
 </html>

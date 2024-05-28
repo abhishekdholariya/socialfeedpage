@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
+    public function show(){
+        return view('index');
+    }
 // public function index(){
 //     $friends = User::where('id','!=',Auth::id())->get();
 //     return view('index',compact('friends'));
@@ -15,13 +18,25 @@ class IndexController extends Controller
 
 public function index()
 {
-    $friends = Auth::user()->follows;
-    $potentialFriends = User::where('id', '!=', Auth::id())
-                            ->whereDoesntHave('followers', function ($query) {
-                                $query->where('user_id', Auth::id());
+    // $friends = Auth::user()->follows;
+    // $potentialFriends = User::where('id', '!=', Auth::id())
+    //                         ->whereDoesntHave('followers', function ($query) {
+    //                             $query->where('user_id', Auth::id());
+    //                         })
+    //                         ->get();
+
+    // return view('index', compact('potentialFriends', 'friends'));
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
+    }
+    $user = Auth::user();
+
+    $friends = $user->follows; 
+    $potentialFriends = User::where('id', '!=', $user->id)
+                            ->whereDoesntHave('followers', function ($query) use ($user) {
+                                $query->where('user_id', $user->id);
                             })
                             ->get();
-
     return view('index', compact('potentialFriends', 'friends'));
 }
 

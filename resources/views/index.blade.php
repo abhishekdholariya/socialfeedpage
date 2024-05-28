@@ -26,7 +26,7 @@
                                     @endauth
                                     @guest
                                         <img class="rounded-circle" width="45" height="45"
-                                            src="{{asset('images/default.jpeg')}}" alt="profile pic" />
+                                            src="{{ asset('images/default.jpeg') }}" alt="profile pic" />
                                     @endguest
                                 </div>
                                 <div class="ml-2">
@@ -104,6 +104,8 @@
     const likePost = "{{ route('likepost') }}";
     const commentPost = "{{ route('commentpost') }}";
     const getComments = "{{ route('getcomments') }}";
+    const deletePost = "{{ route('deletepost') }}";
+    const archivePost = "{{ route('archivepost') }}";
 </script>
 
 <script src="{{ asset('js/post.js') }}"></script>

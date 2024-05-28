@@ -11,16 +11,15 @@ class RegisterController extends Controller
     public function show(){
         return view('register');
     }
-    public function adduser(Request $request){
+    public function store(Request $request){
         $request->validate([
             'fname'=>'required',
             'lname'=>'required',
-            'email'=>'required|email',
-            'password'=>'required|min:6',
+            'email'=>'required | email | unique:users,email',
+            'password'=>'required | min:6',
             'headline'=>'required',
-            'profile'=>'required'
+            'profile'=>'required | nullable | image | max:2048'
         ]);
-        // dd($request->all());
         $user= new User();
         $user->fname=$request->input('fname');
         $user->lname=$request->input('lname');
@@ -37,14 +36,13 @@ class RegisterController extends Controller
         return redirect('/login')->with('success', 'User registered successfully.');
     }
     
-public function profileUpdate(Request $request, $id)
+public function update(Request $request, $id)
 {
     $request->validate([
         'fname' => 'required',
         'username' => 'required',
-        'email' => 'required|email|',
-        'password' => 'nullable|min:8',
-        'profile' => 'nullable|image|max:2048',
+        'email' => 'required | email',
+        'profile' => 'required | nullable | image | max:2048',
     ]);
 
     $user = User::find($id);
@@ -55,7 +53,6 @@ public function profileUpdate(Request $request, $id)
     $user->fname = $request->input('fname');
     $user->lname = $request->input('username');
     $user->email = $request->input('email');
-    $user->password = Hash::make($request->input('password'));
 
     if ($request->hasFile('profile')) {
         $profile = $request->file('profile');
@@ -63,7 +60,6 @@ public function profileUpdate(Request $request, $id)
         $profile->move(public_path('uploads'), $profileName);   
         $user->profile = $profileName;
     }
-
     $user->save();
 
     return redirect()->back();
