@@ -1,66 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Social Media Page
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+# Project Overview:
+This project aims to create a fully functional social media page where users can google login, sign up, log in, create posts, like and comment on posts to receiving notifications, and follow other users.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Features
+- User Authentication: Google login, Sign up, log in, and log out and Forgot Password functionalities.
+- User Profiles: View and edit user profiles.
+- Posts: Create, delete, view and archive posts.
+- Likes: Like and unlike posts.
+- Comments: Add comments on posts and comment replay.
+- Follow System: Follow and unfollow other users.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Technologies Used
+- Frontend:
+ HTML,
+ Blade Templates,
+ bootstrap css,
+ Jquery
+- Backend:
+Laravel
+- Database:
+ MySQL
+- Authentication:
+ CSRF (Tokens)
+- Others:
+ Laravel Eloquent ORM for database interactions
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#  Prerequisites
+Before you begin, ensure you have the following installed on your system:
+- PHP 8.2.12
+- Composer 2.7.2
+- Laravel 11
 
-## Learning Laravel
+# Installation
+- Clone the repository:
+```bash
+git clone https://github.com/abhishekdholariya/socialfeedpage.git
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Install dependencies:
+```bash
+composer install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Set up environment variables:
+Update the following variables in the .env file:
+```bash
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=YOUR_DATABASE_NAME
+DB_USERNAME=root
+DB_PASSWORD=
 
-## Laravel Sponsors
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+```
+- Run migrations:
+```bash
+php artisan migrate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Run the development server:
+```bash
+php artisan serve
+``` 
 
-### Premium Partners
+# Usage
+### 1. Register a new account or log in with an existing account.
+### 2. Create new posts from your profile.
+### 3. Like and comment on posts.
+# Core Functionalities
+### 1. Add/Remove Friend
+Users can add or remove friends within the social media platform. This functionality enhances social interaction and network building.
+### 2. Like/Unlike Post
+Users have the ability to like or unlike posts shared by other users. This feature encourages engagement and interaction among users.
+### 3. View Notifications
+Users receive notifications when other users like their posts. This feature keeps users informed about interactions and engagements on their content.
+### 4. Archive/Unarchive Own Post
+Users can archive or unarchive their own posts, allowing them to organize and manage their content.
+### 5. Add/Delete Post
+Users can create new posts or delete posts as needed, giving them control over their published content.
+### 6. View All User Posts
+Users can view posts from all users on the platform, fostering community engagement and interaction.
+### 7. Edit Profile
+Users can edit their profile information, including profile picture, bio, and other details, allowing them to customize their online presence.
+### 8. Logout
+Users can log out of their accounts securely, ending their current session on the platform.
+### 9. View Total Posts
+Users can see the total number of posts they've published on the platform, providing insights into their activity.
+### 10. View Total Archives
+Users can view the total number of archived posts, helping them manage and organize their content effectively.
+### 11. View Total Friends List
+Users can see the total number of friends they have on the platform, giving them an overview of their social connections.
+### 12. Received Welcome Mail
+Newly registered users receive a welcome email, providing them with information and guidance on using the platform.
+### 13. Send Comments
+Users can leave comments on posts shared by other users, facilitating discussions and interactions.
+### 14. Reply to Comments
+Users can reply to comments on posts, enabling threaded conversations and deeper engagement.
+### 15. Forgot Password
+Users can reset their password if they forget it by providing their email address. A reset password link will be sent to their email.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+# Contact
+If you have any questions, feel free to reach out:
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Email: abhishekdholariya2001@gmail.com
