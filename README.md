@@ -23,7 +23,7 @@ Laravel
 - Database:
  MySQL
 - Authentication:
- CSRF (Tokens)
+ CSRF(Tokens)
 - Others:
  Laravel Eloquent ORM for database interactions
 
@@ -37,6 +37,7 @@ Before you begin, ensure you have the following installed on your system:
 - Clone the repository:
 ```bash
 git clone https://github.com/abhishekdholariya/socialfeedpage.git
+cd socialmediapage
 ```
 
 - Install dependencies:
@@ -78,6 +79,7 @@ php artisan serve
 ### 1. Register a new account or log in with an existing account.
 ### 2. Create new posts from your profile.
 ### 3. Like and comment on posts.
+
 # Core Functionalities
 ### 1. Add/Remove Friend
 Users can add or remove friends within the social media platform. This functionality enhances social interaction and network building.
@@ -110,7 +112,6 @@ Users can reply to comments on posts, enabling threaded conversations and deeper
 ### 15. Forgot Password
 Users can reset their password if they forget it by providing their email address. A reset password link will be sent to their email.
 
-# Contact
-If you have any questions, feel free to reach out:
+# Contributing
+Contributions are welcome! Feel free to open issues and pull requests to suggest improvements or report bugs.
 
-Email: abhishekdholariya2001@gmail.com
