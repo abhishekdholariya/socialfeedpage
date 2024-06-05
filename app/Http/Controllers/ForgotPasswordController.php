@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ForgotPassword;
 use App\Models\User;
+use App\Jobs\SendForgotPasswordEmail;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -27,9 +28,11 @@ class ForgotPasswordController extends Controller
         
         $data->save();
 
-        Mail::send("emails.forgotpassword", ['token'=>$token], function($message) use ($request){
-            $message->to($request->email)->subject("Reset Password");
-        });
+        // Mail::send("emails.forgotpassword", ['token'=>$token], function($message) use ($request){
+        //     $message->to($request->email)->subject("Reset Password");
+        // });
+        SendForgotPasswordEmail::dispatch($request->email, $token);
+        
         return redirect()->to(route("forgotpassword"))->with('success','send email');
     }
 
@@ -62,6 +65,5 @@ class ForgotPasswordController extends Controller
     
         return redirect()->route('resetpassword', ['token' => $request->token])->with('error', 'Invalid email address.');
     }
-    
     
 }

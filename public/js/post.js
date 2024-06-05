@@ -98,6 +98,7 @@ $(function () {
         });
     }
 
+    // add post
     $("#postForm").submit(function (e) {
         e.preventDefault();
         if (user_id != 0) {

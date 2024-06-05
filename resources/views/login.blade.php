@@ -74,7 +74,7 @@
                         </label>
                         <center>
                             <div class='row'>
-                                <div>
+                                <div class='col s12'>
                                     <button type='submit' name='btn_login'
                                         class='col s12 btn btn-login waves-effect indigo btnRegister'>Login</button>
 

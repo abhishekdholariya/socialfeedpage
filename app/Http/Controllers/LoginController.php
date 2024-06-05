@@ -22,6 +22,7 @@ class LoginController extends Controller
             $user = Auth::user();
             return redirect('/');
         }
+        
         return back()->withErrors(['email' => 'These credentials do not match our records.', 'password' => 'This Password not match']);
     }
 
