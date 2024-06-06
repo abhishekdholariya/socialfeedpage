@@ -161,79 +161,6 @@ $(function () {
         }
     });
 
-    // get comment
-    // $(document).on("click", ".card-comment", function (e) {
-    //     e.preventDefault();
-    //     var post_id = $(this).data("postid");
-    //     $.ajax({
-    //         url: getComments,
-    //         type: "POST",
-    //         data: {
-    //             post_id: post_id,
-    //             _token: $('meta[name="csrf-token"]').attr("content"),
-    //         },
-    //         success: function (res) {
-    //             if (res.success) {
-    //                 var commentHtml = `
-    //                 <!-- Comment Modal -->
-    //                 <div class="modal fade" id="commentModel" tabindex="-1" role="dialog" aria-labelledby="commentModelLabel" aria-hidden="true">
-    //                     <div class="modal-dialog" role="document">
-    //                         <div class="modal-content">
-    //                             <div class="modal-header">
-    //                                 <h5 class="modal-title" id="commentModelLabel">Comments</h5>
-    //                                 <button type="button" class="close close_comment_model">
-    //                                     <span aria-hidden="true">&times;</span>
-    //                                 </button>
-    //                             </div>
-
-    //                             <div class="modal-body">
-    //                                 <ul id="comment-history" class="list-group">
-
-    //                                     <!-- Comments appended -->
-
-    //                                 </ul>
-    //                             <div class="form-group">
-    //                                 <textarea id="comment-text" class="form-control" placeholder="Write your comment here..."></textarea>
-    //                             </div>
-    //                             </div>
-
-    //                             <div class="modal-footer">
-    //                                 <button type="button" class="btn btn-secondary close_comment_model" data-dismiss="modal">Close</button>
-    //                                 <button type="button" class="btn btn-primary " id="addComment" data-postId="${post_id}">Submit</button>
-    //                             </div>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //                 </div>`;
-
-    //                 $("body").append(commentHtml);
-    //                 $("#commentModel").modal("show");
-    //                 modalElement = document.getElementById("commentModel");
-    //                 modalElement.addEventListener("hide.bs.modal", function () {$("#commentModel").remove();});
-    //                 $("#commentModel").modal({ keyboard: false });
-    //                 $.each(res.comments, function (index, comment) {
-    //                     var newComment = `<li class="list-group   list-group-item">
-    //                     <div>
-    //                         <div class="d-flex align-items-center">
-    //                             <div class="mr-2">
-    //                                 <img class="rounded-circle" width="45" height="45" src="uploads/${comment.user.profile}" alt="profile img" />
-    //                             </div>
-    //                             <div class="ml-2">
-    //                                 <h6 class="fw-bold mb-1">${comment.user.fname}</h6>
-    //                                 <small class="text-muted">${new Date(comment.created_at).toLocaleString()} </small>
-    //                             </div>
-    //                         </div>
-    //                         <div class="mt-2 ml-5 pl-3">
-    //                             <p class="text-muted">${comment.comment}</p>
-    //                         </div>
-    //                     </li>`;
-    //                     $("#comment-history").append(newComment);
-    //                 });
-    //             }
-    //         },
-    //     });
-    // });
-
     // comment reply add
     $(document).on("click", ".card-comment", function (e) {
         e.preventDefault();
@@ -375,7 +302,6 @@ $(function () {
                     _token: $('meta[name="csrf-token"]').attr("content"),
                 },
                 success: function (res) {
-                    console.log(res);
                     if (res.success) {
                         var newReply = `
                         <li class="list-group-item">
@@ -480,10 +406,9 @@ $(function () {
             },
             success: function (res) {
                 if (res.success) {
-                    alert("successfully delete");
                     postElement.remove();
                 } else {
-                    alert("not delete post");
+                    alert("post not delete");
                 }
             },
         });
@@ -512,7 +437,6 @@ $(function () {
             },
             error: function (xhr, status, error) {
                 console.error("Archive error:", status, error);
-                alert("An error occurred while archiving the post.");
             },
         });
     });
@@ -522,7 +446,6 @@ $(function () {
         e.preventDefault();
         var post_id = $(this).data("post_id");
         var postElement = $(this).closest(".posts");
-        console.log(post_id);
         $.ajax({
             url: unarchivepost,
             type: "POST",
@@ -545,37 +468,6 @@ $(function () {
         });
     });
 
-    // edit post
-    $(document).on("click", ".edit-post", function (e) {
-        e.preventDefault();
-        var post_id = $(this).data("post_id");
-        $.ajax({});
-    });
-
-    //function call on all post
+    //all post function call
     fetchAllPosts();
 });
-
-// <div class="dropdown">
-// <button class="btn btn-link" type="button" id="drop-dwon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-//     <i class="fa fa-ellipsis-h"></i>
-// </button>
-// <div class="dropdown-menu" aria-labelledby="dropdownMenu2">`;
-
-// if (post.user_id==user_id) {
-
-// newPostHtml +=`
-//     <a href="#"><button class="dropdown-item edit-post" data-post_id="${post.id} type="button">Edit</button></a>
-//     <a href="#"><button class="dropdown-item delete-post" data-post_id="${post.id}" type="button">Delete</button></a>
-//     <a href="#"><button class="dropdown-item archive-post" data-post_id="${post.id}" type="button">Archive</button></a>
-// `;
-// }
-// else{
-// newPostHtml+=`
-//     <a href="#"><button class="dropdown-item" type="button">Report</button></a>
-// `;
-// }
-// newPostHtml+=`
-
-// </div>
-// </div>

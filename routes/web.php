@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ArchivePostController;
-use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\IndexController;
@@ -9,7 +8,6 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -17,19 +15,15 @@ Route::get('/notification', [IndexController::class, 'index'])->name('notificati
 Route::post('/post-list', [PostController::class, 'show'])->name('allpost');
 Route::post('/getcomments', [PostController::class, 'getcomments'])->name('getcomments');
 
-// api resources 
-// Route::get('/users', [UserController::class, 'index']);
-// Route::get('/users/{id}', [UserController::class, 'show']);
-
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [RegisterController::class, 'show'])->name('register');
     Route::post('/adduser', [RegisterController::class, 'store'])->name('adduser');
     
     Route::get('/login', [LoginController::class, 'show'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->name('credentials');
+    Route::post('/login', [LoginController::class, 'store'])->name('credentials');
 
     Route::get('/forgot',[ForgotPasswordController::class,'show'])->name('forgotpassword');
-    Route::post('/forgot',[ForgotPasswordController::class,'store'])->name('forgotpasswordpost');
+    Route::post('/forgotpassword',[ForgotPasswordController::class,'store'])->name('forgotpasswordpost');
     Route::get('/resetpassword/{token}',[ForgotPasswordController::class,'reset'])->name('resetpassword');
     Route::post('/resetpasswordpost',[ForgotPasswordController::class,'update'])->name('resetpasswordpost');
 

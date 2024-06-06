@@ -2,71 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Jobs\SendWelcomeBackEmail;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
     public function show(){
-        return view('register');
+        return view('auth.register');
     }
-    public function store(Request $request){
-        $request->validate([
-            'fname'=>'required',
-            'lname'=>'required',
-            'email'=>'required | email | unique:users,email',
-            'password'=>'required | min:6',
-            'headline'=>'required',
-            'profile'=>'required | nullable | image | max:2048'
-        ]);
-        $user= new User();
-        $user->fname=$request->input('fname');
-        $user->lname=$request->input('lname');
-        $user->email=$request->input('email');
-        $user->password=Hash::make($request->input('password'));
-        $user->headline=$request->input('headline');
+    public function store(RegisterRequest $request){
+        try{
+            $user= new User();
+            $user->fname=$request->input('fname');
+            $user->lname=$request->input('lname');
+            $user->email=$request->input('email');
+            $user->password=Hash::make($request->input('password'));
+            $user->headline=$request->input('headline');
 
-        $profile = $request->file('profile');
-        $profileName = time() . '.' . $profile->getClientOriginalExtension();
-        $profile->move(public_path('uploads'), $profileName);   
-        $user->profile=$profileName;
-    
-        $user->save();
+            $profile = $request->file('profile');
+            $profileName = time() . '.' . $profile->getClientOriginalExtension();
+            $profile->move(public_path('uploads'), $profileName);   
+            $user->profile=$profileName;
+            $user->save();
 
-        SendWelcomeBackEmail::dispatch($user);
-        
-        return redirect('/login')->with('success', 'User registered successfully.');
+            SendWelcomeBackEmail::dispatch($user);
+
+            return redirect()->route('login')->with('success', 'User registered successfully.');
+        }catch (Exception $e) {
+                Log::info('add user');
+                Log::info($e->getMessage());
+                return response()->json(['success' => false]);
+        }
     }
     
-    public function update(Request $request, $id)
+    public function update(ProfileUpdateRequest $request, $id)
     {
-        $request->validate([
-            'fname' => 'required',
-            'username' => 'required',
-            'email' => 'required | email',
-            'profile' => 'required | nullable | image | max:2048',
-        ]);
-
+        try{
         $user = User::find($id);
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
+            $user->fname = $request->input('fname');
+            $user->lname = $request->input('username');
+            $user->email = $request->input('email');
 
-        $user->fname = $request->input('fname');
-        $user->lname = $request->input('username');
-        $user->email = $request->input('email');
-
-        if ($request->hasFile('profile')) {
-            $profile = $request->file('profile');
-            $profileName = time() . '.' . $profile->getClientOriginalExtension();
-            $profile->move(public_path('uploads'), $profileName);   
-            $user->profile = $profileName;
+            if ($request->hasFile('profile')) {
+                $profile = $request->file('profile');
+                $profileName = time() . '.' . $profile->getClientOriginalExtension();
+                $profile->move(public_path('uploads'), $profileName);   
+                $user->profile = $profileName;
+            }
+            $user->save();
+            return redirect()->back();
+        }catch (Exception $e) {
+                Log::info('update profile');
+                Log::info($e->getMessage());
+                return response()->json(['success' => false]);
         }
-        $user->save();
-
-        return redirect()->back();
     }
 
 }

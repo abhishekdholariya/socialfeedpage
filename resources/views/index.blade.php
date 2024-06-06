@@ -9,7 +9,7 @@
         <div class="row">
 
             <!-- profile start -->
-            @include('layout.profile')
+                @include('layout.profile')
             <!--  profile end -->
 
             <!-- main conitant -->
@@ -103,7 +103,8 @@
     const commentPost = "{{ route('commentpost') }}";
     const getComments = "{{ route('getcomments') }}";
     const deletePost = "{{ route('deletepost') }}";
-    const archivePost = "{{ route('archivepost') }}";
+    const unarchivepost="{{ route('unarchivepost') }}";
+    const archivePost = "{{route('archivepost')}}";
 </script>
 
 <script src="{{ asset('js/post.js') }}"></script>

@@ -12,7 +12,6 @@
 <!-- font-awesome link -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 {{-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> --}}
-<!-- <script src="jquery-3.7.1.min.js"></script> -->
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -20,5 +19,6 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
 <!-- css link -->
 <link rel="stylesheet" href="{{url('css/style.css')}}" />

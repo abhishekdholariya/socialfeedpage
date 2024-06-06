@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\Post;
@@ -10,6 +11,7 @@ use App\Notifications\PostNotification;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -28,17 +30,11 @@ class PostController extends Controller
         }
     }
     // add post
-    public function addpost(Request $request) {
+    public function addpost(PostRequest $request) {
         try {
-            $request->validate([
-                'message'=>'required',
-                'img'=>'required|image'
-            ]);
-    
             $profile = $request->file('img');
             $profileName = time() . '.' . $profile->getClientOriginalExtension();
             $profile->move(public_path('postimg'), $profileName);   
-            
             $post = new Post;
             $post->post_details = $request->message;
             $post->post_img = $profileName;
@@ -53,7 +49,6 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
-    
     // like on post
     public function likepost(Request $request){
         try {
@@ -85,7 +80,6 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
-
     // comment on post
     public function commentpost(Request $request){
         try {
@@ -102,14 +96,12 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
-
     // getcomments
     public function getcomments(Request $request){
         try {
             // $post_id = $request->post_id;
             // $comments = Post::find($post_id)->comments()->with('user')->get();
             // return response()->json(['success' => true, 'comments' => $comments]);
-
             // commnet reply add
             $postId = $request->post_id;
             $comments = Comment::where('post_id', $postId)
@@ -127,30 +119,28 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
-
     // reply on comment
     public function submitReply(Request $request){
-        $validatedData = $request->validate([
-            'post_id' => 'required|exists:posts,id',
-            'parent_id' => 'nullable|exists:comments,id',
-            'comment' => 'required|string',
-        ]);
-
-        $comment = new Comment();
-        $comment->post_id = $validatedData['post_id'];
-        $comment->user_id = auth()->id();
-        $comment->parent_id = $validatedData['parent_id'];
-        $comment->comment = $validatedData['comment'];
-        $comment->save();
-
-        $comment->load('user');
-
-        return response()->json([
-            'success' => true,
-            'comment' => $comment
-        ]);
+        try{
+            $validatedData = $request->validate([
+                'post_id' => 'required|exists:posts,id',
+                'parent_id' => 'nullable|exists:comments,id',
+                'comment' => 'required|string',
+            ]);
+            $comment = new Comment();
+            $comment->post_id = $validatedData['post_id'];
+            $comment->user_id = auth()->id();
+            $comment->parent_id = $validatedData['parent_id'];
+            $comment->comment = $validatedData['comment'];
+            $comment->save();
+            $comment->load('user');
+            return response()->json(['success' => true,'comment' => $comment]);
+        }catch (Exception $e) {
+            Log::info('Post delete');
+            Log::info($e->getMessage());
+            return response()->json(['success' => false]);
+        }
     }
-        
     //delete post
     public function deletePost(Request $request){
         try {
@@ -164,7 +154,6 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
-
     //archive post 
     public function archivepost(Request $request){
         try {
@@ -181,7 +170,6 @@ class PostController extends Controller
             return response()->json(['success' => false]);
         }
     }
-
     // unarchive post
     public function unarchivePost(Request $request){
         try {
